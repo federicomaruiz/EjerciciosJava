@@ -54,7 +54,7 @@ public class MayorDiferencia {
 				}
 			}
 		}
-
+		sc.close();
 		int respuesta = solicitarNotas(notas);
 		System.out.println("La diferencia es " + respuesta);
 	}

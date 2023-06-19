@@ -45,6 +45,7 @@ public class CuantoQueda {
 				i--;
 			}
 		}
+		sc.close();
 		kilometrosRestantes = cuantosKmQuedan(etapas);
 		return kilometrosRestantes;
 	}

@@ -3,9 +3,6 @@
  */
 package unidad3;
 
-import java.sql.Array;
-import java.util.InputMismatchException;
-import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -44,7 +41,7 @@ public class laPiezaPerdida {
 				i--;
 			}
 		}
-
+		sc.close();
 		piezaFalta = sumaTotal - totalPiezas;
 		System.out.println(piezaFalta);
 	}
