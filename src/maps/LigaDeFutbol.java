@@ -9,6 +9,16 @@ import java.util.Scanner;
 
 /**
  * @author federicoruiz 21 jun 2023 9:56:13
+ * 
+ * 
+ *         Estamos organizando una liga de futbol y queremos saber la
+ *         clasificación general tras cada partido. El resultado de cada partido
+ *         tiene el siguiente formato: Equipo1 Goles1 Equipo2 Goles2, donde
+ *         Equipo 1 y 2 son los nombres de los equipos y Goles 1 y 2 los goles
+ *         que han marcada respectivamente. La victoria se puntúa con 3 puntos y
+ *         el empate con 1. ¿Serías capaz de hacer un programa que muestre la
+ *         clasificación tras leer cada resultado? El programa debe finalizar
+ *         cuando se escribe la palabra “fin”
  */
 public class LigaDeFutbol {
 
