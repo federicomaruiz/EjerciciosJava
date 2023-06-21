@@ -1,7 +1,7 @@
 /**
  * 
  */
-package maps;
+package maps8;
 
 import java.util.HashMap;
 import java.util.Map.Entry;

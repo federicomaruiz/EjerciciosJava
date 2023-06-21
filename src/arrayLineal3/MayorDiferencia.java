@@ -1,7 +1,7 @@
 /**
  * 
  */
-package arrayLineal;
+package arrayLineal3;
 
 import java.util.Scanner;
 

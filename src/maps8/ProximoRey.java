@@ -1,7 +1,7 @@
 /**
  * 
  */
-package maps;
+package maps8;
 
 import java.util.LinkedHashMap;
 import java.util.Scanner;
@@ -49,23 +49,24 @@ public class ProximoRey {
 				System.out.println("mal");
 			}
 		} while (!valido);
-		
+
 		valido = false;
-		
+
 		do {
-		System.out.print("Escribe el proximo rey : " );
-		input = sc.nextLine();
-		if(input.matches("[a-zA-ZñÑáéíóúÁÉÍÓÚ]+")) {
-			if (reyes.containsKey(input)) {
-				System.out.println( "Va ser el numero : " + (reyes.get(input) + 1));
+			System.out.print("Escribe el proximo rey : ");
+			input = sc.nextLine();
+			if (input.matches("[a-zA-ZñÑáéíóúÁÉÍÓÚ]+")) {
+				if (reyes.containsKey(input)) {
+					System.out.println("Va ser el numero : " + (reyes.get(input) + 1));
+				} else {
+					System.out.println("Va ser el numero : 1");
+				}
+				valido = true;
 			} else {
-				System.out.println("Va ser el numero : 1");
+				System.out.println("Escribe un nombre correcto");
 			}
-			valido=true;
-		}else {
-			System.out.println("Escribe un nombre correcto");
-		}
-		}while(!valido);
+		} while (!valido);
+		sc.close();
 	}
 
 }
