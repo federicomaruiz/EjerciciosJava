@@ -3,7 +3,7 @@
  */
 package ejercicioExamen;
 
-import java.awt.EventQueue;
+
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,6 +25,7 @@ import java.awt.Color;
  */
 public class Vista extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Controlador controlador;
 	private Modelo modelo;

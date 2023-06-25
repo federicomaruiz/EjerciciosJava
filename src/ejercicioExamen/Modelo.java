@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
-import javax.swing.table.DefaultTableModel;
+
+import javax.swing.JOptionPane;
 
 /**
  * @author federicoruiz 24 jun 2023 13:31:54
@@ -21,7 +21,6 @@ public class Modelo {
 	private Vista vista;
 	HashMap<Integer, String> jugadorFrase = new HashMap<>();
 	List<String> letra = new ArrayList<>();
-	private DefaultTableModel miTabla;
 	private final String archivo = "jugadores.csv";  
 
 	/**
@@ -98,12 +97,11 @@ public class Modelo {
 			fw.close();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, "Nose pudo guardar el fichero");
 			e.printStackTrace();
 		}
 		
 		
 	}
 
-	
 }
