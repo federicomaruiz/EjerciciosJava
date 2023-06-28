@@ -17,6 +17,7 @@ public class Main {
 		Modelo modelo = new Modelo();
 		Controlador controlador = new Controlador();
 		Vista vista = new Vista();
+	
 		
 		modelo.setVista(vista);
 		controlador.setModelo(modelo);

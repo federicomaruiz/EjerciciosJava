@@ -3,9 +3,11 @@
  */
 package rubik;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,6 +17,8 @@ public class Modelo {
 
 	Vista vista;
 	DefaultTableModel miTabla;
+	int tablero;
+	HashMap <DefaultTableModel,String> jugadores = new HashMap<>();
 
 	/**
 	 * @return the vista
@@ -30,14 +34,20 @@ public class Modelo {
 		this.vista = vista;
 	}
 
-	public void cargarTablero(int a) {
+	/*
+	 * Creo el tablero dependiendo el tamaño, si es de 36 agrego al comboBoxNumero 2 numeros mas para que pueda acceder
+	 * a mover las ultimas dos filas tambien
+	 * Luego de pintar el tablero, llamo a calcularObjetivo, sumaActual y ganaAlaPrimera para comprobar que no haya ganado 
+	 * sin hacer movimientos
+	 * */
+	public void cargarTablero(int tamaño) {
 		int count = 0;
-		int tablero = 0;
 		int sumador = 1;
-		if (a == 16) {
+		if (tamaño == 16) {
 			tablero = 4;
 		} else {
 			tablero = 6;
+			vista.getComboBoxNumero().setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6" }));
 		}
 		miTabla = new DefaultTableModel();
 		Object[] contenido = new Object[tablero];
@@ -56,7 +66,7 @@ public class Modelo {
 			miTabla.addRow(contenido);
 			count++;
 		}
-
+		
 		vista.getTabla().setModel(miTabla);
 		calcularObjetivo();
 		sumaActual();
@@ -64,76 +74,111 @@ public class Modelo {
 
 	}
 
-
-
 	/**
-	 * 
+	 * Compruebo que por casualidad no haya ganado a la primera si es asi vuelvo a
+	 * calcular un nuevo objetivo
 	 */
 	private void ganaAlaPrimera() {
 		int obj = Integer.parseInt(vista.getTxtObjetivo().getText());
 		int suma = Integer.parseInt(vista.getTxtSuma().getText());
-		while(suma == obj) {
+		while (suma == obj) {
 			calcularObjetivo();
 		}
-		
+
 	}
 
+	/*
+	 * Calculo el objetivo dependiendo el tamaño del cuadrado, un numero random
+	 */
+
 	public int calcularObjetivo() {
+
+		int tamaño = tablero == 4 ? 4 : 6;
+
+		if (tamaño == 4) {
+			tamaño = 49;
+		} else {
+			tamaño = 129;
+		}
+
 		Random random = new Random();
-		int numeroAleatorio = random.nextInt(49) + 10;
+		int numeroAleatorio = random.nextInt(tamaño) + 10;
 		vista.getTxtObjetivo().setText(String.valueOf(numeroAleatorio));
 		return numeroAleatorio;
 	}
 
+	/*
+	 * Calculo la suma actual de los 4 cuadrados centrales, depeniendo siempre si el
+	 * cuadrado es 4x4 o 6x6 luego actualizo el campo
+	 */
 	public void sumaActual() {
 		int sumaTotal = 0;
+		int filaInicio = 0;
+		int columnaInicio = 0;
 
-		sumaTotal += (int) vista.getTabla().getValueAt(1, 1);
-		sumaTotal += (int) vista.getTabla().getValueAt(1, 2);
-		sumaTotal += (int) vista.getTabla().getValueAt(2, 1);
-		sumaTotal += (int) vista.getTabla().getValueAt(2, 2);
+		if (tablero == 4) {
+			filaInicio = 1;
+			columnaInicio = 1;
+		} else {
+			filaInicio = 2;
+			columnaInicio = 2;
+		}
+
+		for (int i = filaInicio; i < filaInicio + 2; i++) {
+			for (int j = columnaInicio; j < columnaInicio + 2; j++) {
+				sumaTotal += (int) vista.getTabla().getValueAt(i, j);
+			}
+		}
 
 		vista.getTxtSuma().setText(String.valueOf(sumaTotal));
 	}
 
+	/*
+	 * Primeor num-- para ir por el numero indicado por el usuario (aqui empieza en
+	 * 0) miro si es columna o fila guardo los valores en un array de enteros Miro
+	 * si el movimiento va ser ascendente o descendente Luego recorro el tamaño de
+	 * la tabla y voy movimiendo los numeros actualizando la tabla
+	 * 
+	 */
 	public void movimiento(String direccion, String tipo, int num) {
 		num--;
+
+		int tamaño = tablero == 4 ? 4 : 6;
+
 		if (tipo.equals("Columna")) {
-			int uno = (int) vista.getTabla().getValueAt(0, num);
-			int dos = (int) vista.getTabla().getValueAt(1, num);
-			int tres = (int) vista.getTabla().getValueAt(2, num);
-			int cuatro = (int) vista.getTabla().getValueAt(3, num);
-
-			if (direccion.equals("Ascendente")) {
-				vista.getTabla().setValueAt(cuatro, 0, num);
-				vista.getTabla().setValueAt(uno, 1, num);
-				vista.getTabla().setValueAt(dos, 2, num);
-				vista.getTabla().setValueAt(tres, 3, num);
-
-			} else {
-				vista.getTabla().setValueAt(dos, 0, num);
-				vista.getTabla().setValueAt(tres, 1, num);
-				vista.getTabla().setValueAt(cuatro, 2, num);
-				vista.getTabla().setValueAt(uno, 3, num);
+			int[] valores = new int[tamaño];
+			for (int i = 0; i < tamaño; i++) {
+				valores[i] = (int) vista.getTabla().getValueAt(i, num);
 			}
 
+			if (direccion.equals("Ascendente")) {
+				for (int i = 0; i < tamaño - 1; i++) {
+					vista.getTabla().setValueAt(valores[i + 1], i, num);
+				}
+				vista.getTabla().setValueAt(valores[0], tamaño - 1, num);
+			} else {
+				vista.getTabla().setValueAt(valores[tamaño - 1], 0, num);
+				for (int i = 0; i < tamaño - 1; i++) {
+					vista.getTabla().setValueAt(valores[i], i + 1, num);
+				}
+			}
 		} else {
-			int uno = (int) vista.getTabla().getValueAt(num, 0);
-			int dos = (int) vista.getTabla().getValueAt(num, 1);
-			int tres = (int) vista.getTabla().getValueAt(num, 2);
-			int cuatro = (int) vista.getTabla().getValueAt(num, 3);
-			if (direccion.equals("Ascendente")) {
-				vista.getTabla().setValueAt(cuatro, num, 0);
-				vista.getTabla().setValueAt(uno, num, 1);
-				vista.getTabla().setValueAt(dos, num, 2);
-				vista.getTabla().setValueAt(tres, num, 3);
-			} else {
-				vista.getTabla().setValueAt(dos, num, 0);
-				vista.getTabla().setValueAt(tres, num, 1);
-				vista.getTabla().setValueAt(cuatro, num, 2);
-				vista.getTabla().setValueAt(uno, num, 3);
+			int[] valores = new int[tamaño];
+			for (int i = 0; i < tamaño; i++) {
+				valores[i] = (int) vista.getTabla().getValueAt(num, i);
 			}
 
+			if (direccion.equals("Ascendente")) {
+				for (int i = 0; i < tamaño - 1; i++) {
+					vista.getTabla().setValueAt(valores[i + 1], num, i);
+				}
+				vista.getTabla().setValueAt(valores[0], num, tamaño - 1);
+			} else {
+				vista.getTabla().setValueAt(valores[tamaño - 1], num, 0);
+				for (int i = 0; i < tamaño - 1; i++) {
+					vista.getTabla().setValueAt(valores[i], num, i + 1);
+				}
+			}
 		}
 	}
 
@@ -152,19 +197,19 @@ public class Modelo {
 	}
 
 	/**
-	 * 
+	 * Voy contando cuantos movimientos realizo
 	 */
 	public void nMovimiento() {
 		int movimiento;
-		if(vista.getTxtNumMov().getText().equals("")) {
+		if (vista.getTxtNumMov().getText().equals("")) {
 			movimiento = 0;
-		}else {
-		 movimiento = Integer.parseInt(vista.getTxtNumMov().getText());	
+		} else {
+			movimiento = Integer.parseInt(vista.getTxtNumMov().getText());
 		}
 		movimiento++;
 		String mov = String.valueOf(movimiento);
 		vista.getTxtNumMov().setText(mov);
-		
+
 	}
 
 }
