@@ -16,10 +16,7 @@ public class Jugador {
 	private Modelo modelo;
 	private Controlador controlador;
 	
-	Jugador(String nombre, String apellido){
-		this.nombre = nombre;
-		this.apellido = apellido;
-	}
+	
 	/**
 	 * @return the nombre
 	 */

@@ -61,11 +61,11 @@ public class Controlador {
 
 	/**
 	 * @param tam
+	 * @param numJugadores
 	 * @param jug
 	 */
-	public void cargarTablero(int tam) {
-		modelo.cargarTablero(tam);
-		
+	public void cargarTablero(int tam, int numJugadores) {
+		modelo.cargarTablero(tam, numJugadores);
 
 	}
 
@@ -83,33 +83,32 @@ public class Controlador {
 	}
 
 	/**
-	 * @param input
-	 * Compruebo que el nombre solo tenga letras y le dejo espacios en blanco
-	 * Voy agarrar la ultima entrada que va ser el apellido el resto sera todo parte del nombre
+	 * @param input Compruebo que el nombre solo tenga letras y le dejo espacios en
+	 *              blanco Voy agarrar la ultima entrada que va ser el apellido el
+	 *              resto sera todo parte del nombre
 	 */
 	public void validarNombre(String input) {
 		String nombre = "";
 		String apellido = "";
 		String[] cadena;
 		if (input.matches("[a-zA-Z\s]+")) {
-			 cadena = input.split("[ +]");
+			cadena = input.split("[ +]");
 			for (int i = 0; i < cadena.length; i++) {
-				if((i+1) == cadena.length ) {
+				if ((i + 1) == cadena.length) {
 					apellido = cadena[i];
-				}else {
+				} else {
 					nombre += cadena[i] + " ";
 				}
 			}
 			vista.getLblNombreErr().setVisible(false);
-		}else {
+		} else {
 			vista.getLblNombreErr().setVisible(true);
 		}
 	}
 
-
-
 	/**
-	 * Una ves que definio el tamaño de tablero y numero de jugadores escondo los campos
+	 * Una ves que definio el tamaño de tablero y numero de jugadores escondo los
+	 * campos
 	 */
 	public void limpiarInicio() {
 		vista.getLblJugadores().setVisible(false);
@@ -118,9 +117,16 @@ public class Controlador {
 		vista.getComboBoxTablero().setVisible(false);
 		vista.getBtnEmpezar().setVisible(false);
 		vista.getBtnCargar().setVisible(true);
-		
+
 	}
 
-	
-
+	/**
+	 * 
+	 * 
+	 * public void turnosJugador() { modelo.turnosJugador();
+	 * 
+	 * }
+	 * 
+	 * 
+	 */
 }

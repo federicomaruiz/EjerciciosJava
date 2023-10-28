@@ -18,11 +18,11 @@ public class Modelo {
 	Vista vista;
 	DefaultTableModel miTabla;
 	int tablero;
-	HashMap <DefaultTableModel,String> jugadores = new HashMap<>();
+	HashMap<Integer, DefaultTableModel> jugadores = new HashMap<>();
+	int turno = 0;
+	int totalJugadores;
+	boolean primeraVuelta = false;
 
-	/**
-	 * @return the vista
-	 */
 	public Vista getVista() {
 		return vista;
 	}
@@ -35,12 +35,13 @@ public class Modelo {
 	}
 
 	/*
-	 * Creo el tablero dependiendo el tamaño, si es de 36 agrego al comboBoxNumero 2 numeros mas para que pueda acceder
-	 * a mover las ultimas dos filas tambien
-	 * Luego de pintar el tablero, llamo a calcularObjetivo, sumaActual y ganaAlaPrimera para comprobar que no haya ganado 
-	 * sin hacer movimientos
-	 * */
-	public void cargarTablero(int tamaño) {
+	 * Creo el tablero dependiendo el tamaño, si es de 36 agrego al comboBoxNumero 2
+	 * numeros mas para que pueda acceder a mover las ultimas dos filas tambien
+	 * Luego de pintar el tablero, llamo a calcularObjetivo, sumaActual y
+	 * ganaAlaPrimera para comprobar que no haya ganado sin hacer movimientos
+	 */
+	public void cargarTablero(int tamaño, int numJugadores) {
+		totalJugadores = numJugadores;
 		int count = 0;
 		int sumador = 1;
 		if (tamaño == 16) {
@@ -66,13 +67,34 @@ public class Modelo {
 			miTabla.addRow(contenido);
 			count++;
 		}
-		
+
+		/*
+		 * for (int i = 0; i < numJugadores; i++) { jugadores.put(i, miTabla);
+		 * System.out.println("jugador " + i); }
+		 */
+		// turnosJugador();
 		vista.getTabla().setModel(miTabla);
 		calcularObjetivo();
 		sumaActual();
 		ganaAlaPrimera();
 
 	}
+
+	/**
+	 * 
+	 * 
+	 * public void turnosJugador() {
+	 * 
+	 * if((turno < totalJugadores) && !(primeraVuelta)){
+	 * vista.getTabla().setModel(jugadores.get(turno)); calcularObjetivo();
+	 * sumaActual(); ganaAlaPrimera(); }else if((turno < totalJugadores) &&
+	 * (primeraVuelta)){ vista.getTabla().setModel(jugadores.get(turno));
+	 * System.out.println("entra ya todo especifo"); sumaActual(); }else {
+	 * System.out.println("reseteo turno"); primeraVuelta = true; turno = 0;
+	 * turnosJugador(); } turno ++;
+	 * 
+	 * }
+	 */
 
 	/**
 	 * Compruebo que por casualidad no haya ganado a la primera si es asi vuelvo a

@@ -160,7 +160,7 @@ public class Vista extends JFrame {
 				int objetivo = Integer.parseInt(txtObjetivo.getText());
 				int total = Integer.parseInt(txtSuma.getText());
 				controlador.ganador(objetivo, total);
-
+				//controlador.turnosJugador();
 			}
 		});
 		btnMover.setBounds(188, 241, 83, 29);
@@ -172,8 +172,8 @@ public class Vista extends JFrame {
 				String tamanio = (String) comboBoxTablero.getSelectedItem();
 				String jugadores = (String) comboBoxJugadores.getSelectedItem();
 				int tam = Integer.parseInt(tamanio);
-				int jug = Integer.parseInt(jugadores);
-				controlador.cargarTablero(tam);
+				int numJugadores = Integer.parseInt(jugadores);
+				controlador.cargarTablero(tam,numJugadores);
 				btnEmpezar.setVisible(false);
 				//controlador.limpiarInicio();
 			}
